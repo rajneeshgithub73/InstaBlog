@@ -14,16 +14,17 @@ class AuthService {
 
     async getUser() {
         try {
-            const user = await this.account.get();
-            if (user) {
-                console.log(user);
+            const userData = await this.account.get();
+            if (userData) {
+                return userData;
             }
+            return null;
         } catch (error) {
             console.log(error);
         }
     }
 
-    async createUser({ email, password, name }) {
+    async signupUser({ email, password, name }) {
         try {
             const response = await this.account.create(
                 ID.unique(),
@@ -36,26 +37,25 @@ class AuthService {
             }
         } catch (error) {
             console.log(error);
+            return error.message;
         }
     }
 
     async loginUser({ email, password }) {
         try {
-            const response = await this.account.createEmailSession(email, password);
-            if (response) {
-                console.log(response);
+            const session = await this.account.createEmailSession(email, password);
+            if (session) {
+                return session;
             }
         } catch (error) {
             console.log(error);
+            return error.message;
         }
     }
 
     async logoutUser(sessionId) {
         try {
-            const response = await this.account.deleteSession(sessionId);
-            if (response) {
-                console.log(response);
-            }
+            await this.account.deleteSession(sessionId);
         } catch (error) {
             console.log(error);
         }
