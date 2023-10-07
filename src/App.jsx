@@ -5,7 +5,7 @@ import Header from './components/Header';
 function App() {
 
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full flex-row'>
       <Header />
       <Outlet />
     </div>
